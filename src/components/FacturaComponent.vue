@@ -1,21 +1,20 @@
 <template>
   <div>
-    <form @submit.prevent="agregarProducto">
-      <label for="nombre">Nombre del Producto:</label>
-      <input type="text" id="nombre" v-model="nombreProducto" >
+    <form @submit.prevent="agregarProducto" class="form">
+      <label for="nombre" class="label">Nombre del Producto:</label>
+      <input type="text" id="nombre" v-model="nombreProducto" class="input">
 
-      <label for="cantidad">Cantidad:</label>
-      <input type="number" id="cantidad" v-model.number="cantidadProducto" required>
+      <label for="cantidad" class="label">Cantidad:</label>
+      <input type="number" id="cantidad" v-model.number="cantidadProducto" required class="input">
+      <label for="precio" class="label">Precio Unitario:</label>
+      <input type="text" id="precio" v-model="precioProducto" required class="input">
 
-      <label for="precio">Precio Unitario:</label>
-      <input type="text" id="precio" v-model="precioProducto" required>
-
-      <button type="submit" id="btn_click">Agregar Producto</button>
+      <button type="submit" id="btn_click" class="btn">Agregar Producto</button>
     </form>
 
-    <h2>Detalle de la Factura</h2>
+    <h2 class="section-title">Detalle de la Factura</h2>
 
-    <table>
+    <table class="table">
       <thead>
         <tr>
           <th>Nombre</th>
@@ -28,19 +27,19 @@
         <tr v-for="(producto, index) in productos" :key="index">
           <td>{{ producto.nombre }}</td>
           <td>{{ producto.cantidad }}</td>
-          <td>{{ producto.precio }} pesos</td>
-          <td>{{ producto.total }} pesos</td>
+          <td>{{ producto.precio.toLocaleString('es-ES') }} pesos</td>
+          <td>{{ producto.total.toLocaleString('es-ES') }} pesos</td>
         </tr>
       </tbody>
       <tfoot>
         <tr>
           <td colspan="3" style="text-align: right;"><strong>Total Factura:</strong></td>
-          <td>{{ totalFactura }} pesos</td>
+          <td>{{ totalFactura.toLocaleString('es-ES') }} pesos</td>
         </tr>
         <tr>
           <td colspan="4">
-            <label for="observaciones">Observaciones:</label><br>
-            <textarea id="observaciones" v-model="observaciones" class="observaciones"></textarea>
+            <label for="observaciones" class="label">Observaciones:</label><br>
+            <textarea id="observaciones" v-model="observaciones" class="textarea"></textarea>
           </td>
         </tr>
       </tfoot>
@@ -48,57 +47,57 @@
 
     <div class="total-container">
       <div class="total">
-        <strong>Total Factura:</strong> {{ totalFactura }} pesos
+        <strong>Total Factura</strong>
       </div>
       <div class="precio-pagar">
-        <strong>Precio a pagar:</strong> {{ totalFactura }} pesos
+        <strong>Precio a pagar:</strong> {{ totalFactura.toLocaleString('es-ES') }} pesos
       </div>
     </div>
 
     <div style="display: flex; justify-content: space-between; margin-top: 20px;">
       <!-- Datos del remitente -->
       <div>
-        <h3>Remitente</h3>
-        <label for="nombreRemitente">Nombre:</label>
-        <input type="text" id="nombreRemitente" v-model="nombreRemitente">
+        <h3 class="section-title">Remitente</h3>
+        <label for="nombreRemitente" class="label">Nombre:</label>
+        <input type="text" id="nombreRemitente" v-model="nombreRemitente" class="input">
 
-        <label for="idRemitente">Identificación:</label>
-        <input type="text" id="idRemitente" v-model="idRemitente">
+        <label for="idRemitente" class="label">Identificación:</label>
+        <input type="text" id="idRemitente" v-model="idRemitente" class="input">
 
-        <label for="telefonoRemitente">Teléfono:</label>
-        <input type="text" id="telefonoRemitente" v-model="telefonoRemitente">
+        <label for="telefonoRemitente" class="label">Teléfono:</label>
+        <input type="text" id="telefonoRemitente" v-model="telefonoRemitente" class="input">
       </div>
 
       <!-- Datos del destinatario -->
       <div>
-        <h3>Destinatario</h3>
-        <label for="nombreDestinatario">Nombre:</label>
-        <input type="text" id="nombreDestinatario" v-model="nombreDestinatario">
+        <h3 class="section-title">Destinatario</h3>
+        <label for="nombreDestinatario" class="label">Nombre:</label>
+        <input type="text" id="nombreDestinatario" v-model="nombreDestinatario" class="input">
 
-        <label for="idDestinatario">Identificación:</label>
-        <input type="text" id="idDestinatario" v-model="idDestinatario">
+        <label for="idDestinatario" class="label">Identificación:</label>
+        <input type="text" id="idDestinatario" v-model="idDestinatario" class="input">
 
-        <label for="telefonoDestinatario">Teléfono:</label>
-        <input type="text" id="telefonoDestinatario" v-model="telefonoDestinatario">
+        <label for="telefonoDestinatario" class="label">Teléfono:</label>
+        <input type="text" id="telefonoDestinatario" v-model="telefonoDestinatario" class="input">
       </div>
 
       <!-- Datos de la factura -->
       <div>
-        <h3>Datos de la Factura</h3>
-        <label for="numeroFactura">Número de Factura:</label>
-        <input type="text" id="numeroFactura" v-model="numeroFactura" readonly>
+        <h3 class="section-title">Datos de la Factura</h3>
+        <label for="numeroFactura" class="label">Número de Factura:</label>
+        <input type="text" id="numeroFactura" v-model="numeroFactura" readonly class="input">
 
-        <label for="fechaFactura">Fecha de Factura:</label>
-        <input type="date" id="fechaFactura" v-model="fechaFactura" readonly>
+        <label for="fechaFactura" class="label">Fecha de Factura:</label>
+        <input type="date" id="fechaFactura" v-model="fechaFactura" readonly class="input">
 
-        <label for="vencimientoFactura">Vencimiento de Factura:</label>
-        <input type="date" id="vencimientoFactura" v-model="vencimientoFactura" readonly>
+        <label for="vencimientoFactura" class="label">Vencimiento de Factura:</label>
+        <input type="date" id="vencimientoFactura" v-model="vencimientoFactura" readonly class="input">
       </div>
     </div>
 
     <iframe ref="pdfPreview" style="display: none; width: 40%; height: 400px;"></iframe>
-    <button @click="previewPDF">Vista previa de la factura</button>
-    <button @click="downloadPDF">Descargar factura</button>
+    <button @click="previewPDF" class="btn">Vista previa de la factura</button>
+    <button @click="downloadPDF" class="btn">Descargar factura</button>
   </div>
 </template>
 
@@ -160,8 +159,7 @@ export default {
     },
     downloadPDF() {
       const doc = this.generatePDF();
-      const filename = 'FACTURA.pdf';
-      doc.save(filename);
+      doc.save = "Factura.pdf"
       window.open(doc.output('bloburl'));
     },
     generatePDF() {
@@ -206,7 +204,8 @@ export default {
       doc.line(10, 55, pageSize.width - 10, 55);
 
       // Detalle de la factura - Tabla de productos
-      const data = [
+      let startY = 60; // Posición inicial de la tabla
+      let remainingData = [
         ['Nombre', 'Cantidad', 'Precio', 'Total'],
         ...this.productos.map(producto => [
           producto.nombre,
@@ -216,14 +215,25 @@ export default {
         ])
       ];
 
-      const tableStartY = 60;
+      while (remainingData.length > 0) {
+        const availableSpace = pageSize.height - startY; // Espacio disponible en la página actual
+        const maxRows = Math.floor(availableSpace / 20); // Ajusta según la altura de las filas de tu tabla
+        const rowsForPage = remainingData.slice(0, maxRows);
 
-      doc.autoTable({
-        startY: tableStartY,
-        head: [data[0]],
-        body: data.slice(1), 
-        theme: 'grid'
-      });
+        doc.autoTable({
+          startY: startY,
+          head: [remainingData[0]],
+          body: rowsForPage,
+          theme: 'grid'
+        });
+
+        remainingData = remainingData.slice(maxRows);
+
+        if (remainingData.length > 0) {
+          doc.addPage();
+          startY = 10;
+        }
+      }
 
       // Observaciones
       const observacionesXPosition = 10;
@@ -236,32 +246,78 @@ export default {
       doc.setTextColor(0, 0, 0);
       doc.setFontSize(12);
       doc.text('Observaciones:', observacionesXPosition + 5, observacionesYPosition + 5);
-      doc.setFontSize(11);
+      doc.setFontSize(14);
       doc.text(this.observaciones, observacionesXPosition + 5, observacionesYPosition + 10, { maxWidth: observacionesWidth - 10 });
-      const totalXPosition = 165;
-      doc.text('Total:', totalXPosition, observacionesYPosition + observacionesHeight + 5);
-      doc.text(`${this.totalFactura.toLocaleString('es-ES')} pesos`, totalXPosition, observacionesYPosition + observacionesHeight + 10);
-      doc.text('Gracias por su compra', 110, observacionesYPosition + observacionesHeight + 20, { align: 'center', fontSize: 12 });
+
+      // Total y agradecimiento
+      const totalXPosition = 150;
+      const priceXPosition = totalXPosition + 14;
+      const totalYPosition = pageSize.height - 32; // Ajusta la posición vertical según sea necesario
+      const thanksTextYPosition = totalYPosition + 10;
+      doc.text('Total:', totalXPosition, totalYPosition);
+      doc.text(`${this.totalFactura.toLocaleString('es-ES')} pesos`, priceXPosition, totalYPosition);
+      doc.line(10, totalYPosition + 3, pageSize.width - 10, totalYPosition + 3);
+      doc.text('Gracias por su compra', 110, thanksTextYPosition, { align: 'center', fontSize: 12 });
 
       return doc;
-    }
-  },
-  mounted() {
-    const currentDate = new Date();
-    this.fechaFactura = currentDate.toISOString().substr(0, 10);
+    },
+    mounted() {
+      const currentDate = new Date();
+      this.fechaFactura = currentDate.toISOString().substr(0, 10);
 
-    const dueDate = new Date(currentDate);
-    dueDate.setDate(dueDate.getDate() + 30);
-    this.vencimientoFactura = dueDate.toISOString().substr(0, 10);
+      const dueDate = new Date(currentDate);
+      dueDate.setDate(dueDate.getDate() + 30);
+      this.vencimientoFactura = dueDate.toISOString().substr(0, 10);
+    }
   }
 }
 </script>
 
 <style scoped>
-.observaciones {
-  background-color: aqua;
+.label {
+  display: block;
+  margin-bottom: 5px;
 }
 
+.input {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th, .table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.table th {
+  background-color: #f2f2f2;
+}
+
+.section-title {
+  margin-top: 20px;
+}
+
+.textarea {
+  width: 100%;
+  height: 100px;
+ 
+}
 .total-container {
   display: flex;
   justify-content: space-between;
