@@ -152,8 +152,7 @@ export default {
         precio: precioNumerico,
         total: total
       });
-      this.numeroFactura++;
-      this.nombreProducto = '';this.downloadPDF
+      this.nombreProducto = '';
       this.cantidadProducto = 0;
       this.precioProducto = '';
     },
@@ -167,6 +166,7 @@ export default {
       const doc = this.generatePDF();
       doc.save("Factura.pdf");
       window.open(doc.output('bloburl'));
+      this.numeroFactura++; // Mueve esta línea aquí
     },
     generatePDF() {
       const pageSize = { width: 216, height: 279 };
@@ -276,8 +276,6 @@ export default {
 };
 </script>
 
-
-
 <style scoped>
 .label {
   display: block;
@@ -339,5 +337,3 @@ export default {
   padding: 10px;
 }
 </style>
-
-<!-- la fecha no se ve, me sale como si uno misma la tendria que poner pero no deja, quiero que lo modifiques para que muestra la fecha y la de vencimiento automaticamente en el pdf -->
