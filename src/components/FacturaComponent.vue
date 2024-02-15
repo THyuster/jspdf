@@ -173,6 +173,9 @@ export default {
       const doc = new jsPDF({ format: [pageSize.width, pageSize.height] });
 
       // Encabezado - Título y datos de la empresa
+      const img = new Image();
+      img.src = require('@/assets/jj.jpg'); 
+      doc.addImage(img, 'PNG', 180, 5, 25, 25);
       doc.setFontSize(10);
       doc.setFont('helvetica', 'bold');
       doc.text('YUSCORP', 164, 17);
