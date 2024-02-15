@@ -127,7 +127,8 @@ export default {
       telefonoRemitente: '',
       nombreDestinatario: '',
       idDestinatario: '',
-      telefonoDestinatario: ''
+      telefonoDestinatario: '',
+      maxProductosPorPagina: 20 // Define el máximo de productos por página
     };
   },
   computed: {
@@ -166,7 +167,7 @@ export default {
       const doc = this.generatePDF();
       doc.save("Factura.pdf");
       window.open(doc.output('bloburl'));
-      this.numeroFactura++; // Mueve esta línea aquí
+      this.numeroFactura++;
     },
     generatePDF() {
       const pageSize = { width: 216, height: 279 };
@@ -308,35 +309,23 @@ export default {
 .table th, .table td {
   border: 1px solid #ddd;
   padding: 8px;
-  text-align: left;
-}
-
-.table th {
-  background-color: #f2f2f2;
 }
 
 .section-title {
   margin-top: 20px;
+  margin-bottom: 10px;
 }
 
-.textarea {
-  width: 100%;
-  height: 100px;
- 
-}
 .total-container {
-  display: flex;
-  justify-content: space-between;
   margin-top: 20px;
 }
 
 .total {
-  background-color: #f2f2f2;
-  padding: 10px;
+  font-size: 20px;
 }
 
 .precio-pagar {
-  background-color: #f2f2f2;
-  padding: 10px;
+  font-size: 24px;
+  margin-top: 10px;
 }
 </style>
