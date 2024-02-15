@@ -1,17 +1,20 @@
 <template>
   <div>
+    <!-- Formulario para agregar productos -->
     <form @submit.prevent="agregarProducto" class="form">
       <label for="nombre" class="label">Nombre del Producto:</label>
       <input type="text" id="nombre" v-model="nombreProducto" class="input">
 
       <label for="cantidad" class="label">Cantidad:</label>
       <input type="number" id="cantidad" v-model.number="cantidadProducto" required class="input">
+      
       <label for="precio" class="label">Precio Unitario:</label>
       <input type="text" id="precio" v-model="precioProducto" required class="input">
 
       <button type="submit" id="btn_click" class="btn">Agregar Producto</button>
     </form>
 
+    <!-- Detalle de la factura -->
     <h2 class="section-title">Detalle de la Factura</h2>
 
     <table class="table">
@@ -45,6 +48,7 @@
       </tfoot>
     </table>
 
+    <!-- Mostrar total factura -->
     <div class="total-container">
       <div class="total">
         <strong>Total Factura</strong>
@@ -54,6 +58,7 @@
       </div>
     </div>
 
+    <!-- Información del remitente y destinatario, y datos de la factura -->
     <div style="display: flex; justify-content: space-between; margin-top: 20px;">
       <!-- Datos del remitente -->
       <div>
@@ -95,6 +100,7 @@
       </div>
     </div>
 
+    <!-- Botones para vista previa y descarga de factura -->
     <iframe ref="pdfPreview" style="display: none; width: 40%; height: 400px;"></iframe>
     <button @click="previewPDF" class="btn">Vista previa de la factura</button>
     <button @click="downloadPDF" class="btn">Descargar factura</button>
@@ -131,7 +137,6 @@ export default {
   },
   methods: {
     agregarProducto() {
-
       const precioNumerico = parseFloat(this.precioProducto.replace(/,/g, ''));
 
       // Verificar si el precio es un número válido
@@ -139,6 +144,7 @@ export default {
         alert('Por favor, ingrese un precio válido.');
         return;
       }
+      
       const total = this.cantidadProducto * precioNumerico;
       this.productos.push({
         nombre: this.nombreProducto,
@@ -147,7 +153,7 @@ export default {
         total: total
       });
       this.numeroFactura++;
-      this.nombreProducto = '';
+      this.nombreProducto = '';this.downloadPDF
       this.cantidadProducto = 0;
       this.precioProducto = '';
     },
@@ -159,7 +165,7 @@ export default {
     },
     downloadPDF() {
       const doc = this.generatePDF();
-      doc.save = "Factura.pdf"
+      doc.save("Factura.pdf");
       window.open(doc.output('bloburl'));
     },
     generatePDF() {
@@ -167,9 +173,6 @@ export default {
       const doc = new jsPDF({ format: [pageSize.width, pageSize.height] });
 
       // Encabezado - Título y datos de la empresa
-      const img = new Image();
-      img.src = require('@/assets/jj.jpg'); 
-      doc.addImage(img, 'PNG', 180, 5, 25, 25);
       doc.setFontSize(10);
       doc.setFont('helvetica', 'bold');
       doc.text('YUSCORP', 164, 17);
@@ -204,7 +207,7 @@ export default {
       doc.line(10, 55, pageSize.width - 10, 55);
 
       // Detalle de la factura - Tabla de productos
-      let startY = 60; // Posición inicial de la tabla
+      let startY = 60;
       let remainingData = [
         ['Nombre', 'Cantidad', 'Precio', 'Total'],
         ...this.productos.map(producto => [
@@ -216,8 +219,8 @@ export default {
       ];
 
       while (remainingData.length > 0) {
-        const availableSpace = pageSize.height - startY; // Espacio disponible en la página actual
-        const maxRows = Math.floor(availableSpace / 20); // Ajusta según la altura de las filas de tu tabla
+        const availableSpace = pageSize.height - startY; 
+        const maxRows = Math.floor(availableSpace / 20); 
         const rowsForPage = remainingData.slice(0, maxRows);
 
         doc.autoTable({
@@ -252,7 +255,7 @@ export default {
       // Total y agradecimiento
       const totalXPosition = 150;
       const priceXPosition = totalXPosition + 14;
-      const totalYPosition = pageSize.height - 32; // Ajusta la posición vertical según sea necesario
+      const totalYPosition = pageSize.height - 32; 
       const thanksTextYPosition = totalYPosition + 10;
       doc.text('Total:', totalXPosition, totalYPosition);
       doc.text(`${this.totalFactura.toLocaleString('es-ES')} pesos`, priceXPosition, totalYPosition);
@@ -260,18 +263,20 @@ export default {
       doc.text('Gracias por su compra', 110, thanksTextYPosition, { align: 'center', fontSize: 12 });
 
       return doc;
-    },
-    mounted() {
-      const currentDate = new Date();
-      this.fechaFactura = currentDate.toISOString().substr(0, 10);
-
-      const dueDate = new Date(currentDate);
-      dueDate.setDate(dueDate.getDate() + 30);
-      this.vencimientoFactura = dueDate.toISOString().substr(0, 10);
     }
+  },
+  mounted() {
+    const currentDate = new Date();
+    this.fechaFactura = currentDate.toISOString().substr(0, 10);
+
+    const dueDate = new Date(currentDate);
+    dueDate.setDate(dueDate.getDate() + 30);
+    this.vencimientoFactura = dueDate.toISOString().substr(0, 10);
   }
-}
+};
 </script>
+
+
 
 <style scoped>
 .label {
@@ -334,3 +339,5 @@ export default {
   padding: 10px;
 }
 </style>
+
+<!-- la fecha no se ve, me sale como si uno misma la tendria que poner pero no deja, quiero que lo modifiques para que muestra la fecha y la de vencimiento automaticamente en el pdf -->
