@@ -49,16 +49,6 @@
     </table>
 
   
-    <div class="total-container">
-      <div class="total">
-        <strong>Total Factura</strong>
-      </div>
-      <div class="precio-pagar">
-        <strong>Precio a pagar:</strong> {{ totalFactura.toLocaleString('es-ES') }} pesos
-      </div>
-    </div>
-
-     
     <div style="display: flex; justify-content: space-between; margin-top: 20px;">
        
       <div>
@@ -261,7 +251,6 @@ export default {
       doc.text('Total:', totalXPosition, totalYPosition);
       doc.text(`${this.totalFactura.toLocaleString('es-ES')} pesos`, priceXPosition, totalYPosition);
       doc.line(10, totalYPosition + 3, pageSize.width - 10, totalYPosition + 3);
-      doc.text('Gracias por su compra', 110, thanksTextYPosition, { align: 'center', fontSize: 12 });
 
       return doc;
     }
