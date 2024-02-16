@@ -11,10 +11,12 @@
       <label for="precio" class="label">Precio Unitario:</label>
       <input type="text" id="precio" v-model="precioProducto" required class="input">
 
-      <button type="submit" id="btn_click" class="btn">Agregar Producto</button>
+      <button type="submit" id="bonton_agregar" class="btn">Agregar Producto</button>
     </form>
+    
 
-  
+
+
     <h2 class="section-title">Detalle de la Factura</h2>
 
     <table class="table">
@@ -247,10 +249,16 @@ export default {
       const totalXPosition = 150;
       const priceXPosition = totalXPosition + 14;
       const totalYPosition = pageSize.height - 32; 
-      const thanksTextYPosition = totalYPosition + 10;
+      const thanksTextYPosition = totalYPosition + 15; 
+      
       doc.text('Total:', totalXPosition, totalYPosition);
       doc.text(`${this.totalFactura.toLocaleString('es-ES')} pesos`, priceXPosition, totalYPosition);
       doc.line(10, totalYPosition + 3, pageSize.width - 10, totalYPosition + 3);
+
+      // Ajuste del mensaje de agradecimiento
+      const thanksTextWidth = doc.getTextWidth('Gracias por su compra');
+      const thanksTextXPosition = (pageSize.width - thanksTextWidth) / 2;
+      doc.text('Gracias por su compra', thanksTextXPosition, thanksTextYPosition);
 
       return doc;
     }
