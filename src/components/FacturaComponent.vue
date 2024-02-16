@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- Formulario para agregar productos -->
+    
     <form @submit.prevent="agregarProducto" class="form">
       <label for="nombre" class="label">Nombre del Producto:</label>
       <input type="text" id="nombre" v-model="nombreProducto" class="input">
@@ -14,7 +14,7 @@
       <button type="submit" id="btn_click" class="btn">Agregar Producto</button>
     </form>
 
-    <!-- Detalle de la factura -->
+  
     <h2 class="section-title">Detalle de la Factura</h2>
 
     <table class="table">
@@ -48,7 +48,7 @@
       </tfoot>
     </table>
 
-    <!-- Mostrar total factura -->
+  
     <div class="total-container">
       <div class="total">
         <strong>Total Factura</strong>
@@ -58,9 +58,9 @@
       </div>
     </div>
 
-    <!-- Información del remitente y destinatario, y datos de la factura -->
+     
     <div style="display: flex; justify-content: space-between; margin-top: 20px;">
-      <!-- Datos del remitente -->
+       
       <div>
         <h3 class="section-title">Remitente</h3>
         <label for="nombreRemitente" class="label">Nombre:</label>
@@ -73,7 +73,7 @@
         <input type="text" id="telefonoRemitente" v-model="telefonoRemitente" class="input">
       </div>
 
-      <!-- Datos del destinatario -->
+ 
       <div>
         <h3 class="section-title">Destinatario</h3>
         <label for="nombreDestinatario" class="label">Nombre:</label>
@@ -86,7 +86,7 @@
         <input type="text" id="telefonoDestinatario" v-model="telefonoDestinatario" class="input">
       </div>
 
-      <!-- Datos de la factura -->
+       
       <div>
         <h3 class="section-title">Datos de la Factura</h3>
         <label for="numeroFactura" class="label">Número de Factura:</label>
@@ -100,7 +100,7 @@
       </div>
     </div>
 
-    <!-- Botones para vista previa y descarga de factura -->
+    
     <iframe ref="pdfPreview" style="display: none; width: 40%; height: 400px;"></iframe>
     <button @click="previewPDF" class="btn">Vista previa de la factura</button>
     <button @click="downloadPDF" class="btn">Descargar factura</button>
@@ -128,7 +128,7 @@ export default {
       nombreDestinatario: '',
       idDestinatario: '',
       telefonoDestinatario: '',
-      maxProductosPorPagina: 20 // Define el máximo de productos por página
+      maxProductosPorPagina: 20  
     };
   },
   computed: {
@@ -140,7 +140,6 @@ export default {
     agregarProducto() {
       const precioNumerico = parseFloat(this.precioProducto.replace(/,/g, ''));
 
-      // Verificar si el precio es un número válido
       if (isNaN(precioNumerico)) {
         alert('Por favor, ingrese un precio válido.');
         return;
@@ -173,7 +172,6 @@ export default {
       const pageSize = { width: 216, height: 279 };
       const doc = new jsPDF({ format: [pageSize.width, pageSize.height] });
 
-      // Encabezado - Título y datos de la empresa
       const img = new Image();
       img.src = require('@/assets/jj.jpg'); 
       doc.addImage(img, 'PNG', 180, 5, 25, 25);
@@ -186,7 +184,7 @@ export default {
       doc.setFont('helvetica', 'bold');
       doc.text('Factura', 12, 20);
 
-      // Datos del remitente
+ 
       doc.setFontSize(12);
       doc.setFont('bold');
       doc.text('Remitente', 10, 35);
@@ -194,23 +192,22 @@ export default {
       doc.text(`Identificación: ${this.idRemitente}`, 10, 45);
       doc.text(`Teléfono: ${this.telefonoRemitente}`, 10, 50);
 
-      // Datos del destinatario
       doc.text('Destinatario', 80, 35);
       doc.text(`Nombre: ${this.nombreDestinatario}`, 80, 40);
       doc.text(`Identificación: ${this.idDestinatario}`, 80, 45);
       doc.text(`Teléfono: ${this.telefonoDestinatario}`, 80, 50);
 
-      // Datos de la factura
+    
       doc.text('Datos de la Factura', 150, 35);
       doc.text(`N° Factura: ${this.numeroFactura}`, 150, 40);
       doc.text(`Fecha: ${this.fechaFactura}`, 150, 45);
       doc.text(`Vencimiento: ${this.vencimientoFactura}`, 150, 50);
 
-      // Línea de separación
+      
       doc.setLineWidth(0.5);
       doc.line(10, 55, pageSize.width - 10, 55);
 
-      // Detalle de la factura - Tabla de productos
+ 
       let startY = 60;
       let remainingData = [
         ['Nombre', 'Cantidad', 'Precio', 'Total'],
@@ -242,7 +239,7 @@ export default {
         }
       }
 
-      // Observaciones
+       
       const observacionesXPosition = 10;
       const observacionesYPosition = doc.autoTable.previous.finalY + 10;
       const observacionesWidth = pageSize.width - 20;
@@ -256,7 +253,7 @@ export default {
       doc.setFontSize(14);
       doc.text(this.observaciones, observacionesXPosition + 5, observacionesYPosition + 10, { maxWidth: observacionesWidth - 10 });
 
-      // Total y agradecimiento
+       
       const totalXPosition = 150;
       const priceXPosition = totalXPosition + 14;
       const totalYPosition = pageSize.height - 32; 
